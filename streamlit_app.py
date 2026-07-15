@@ -8,11 +8,6 @@ import requests
 import pandas as pd
 
 
-smoothiefroot_response = requests.get(
-    "https://my.smoothiefroot.com/api/fruit/watermelon"
-)
-st.text(smoothiefroot_response)
-
 # Write directly to the app
 st.title(f"Customize Your Smoothie :cup_with_straw: {st.__version__}")
 st.write(
@@ -60,6 +55,8 @@ ingredients_list = st.multiselect('Choose up to 5 ingredients:', my_dataframe, m
 
 if ingredients_list:
     ingredients_string = ''
+    smoothiefroot_all = requests.get("https://my.smoothiefroot.com/api/fruit/all")
+    lookup_df = st.dataframe(data=smoothiefroot_all.json(), use_container_width=True)
     for i in ingredients_list:
         ingredients_string += i + ' '
         search_on=pd_df.loc[pd_df['FRUIT_NAME'] == i, 'SEARCH_ON'].iloc[0]
