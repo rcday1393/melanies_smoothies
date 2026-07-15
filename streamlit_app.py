@@ -3,7 +3,7 @@ import streamlit as st
 from snowflake.snowpark.functions import col
 import snowflake.connector
 from cryptography.hazmat.primitives import serialization
-
+from snowflake.snowpark import Session
 
 
 # Write directly to the app
@@ -32,16 +32,17 @@ pkb = private_key.private_bytes(
     encryption_algorithm=serialization.NoEncryption(),
 )
 
-conn = snowflake.connector.connect(
-    account=st.secrets["snowflake"]["account"],
-    user=st.secrets["snowflake"]["user"],
-    private_key=pkb,
-    warehouse=st.secrets["snowflake"]["warehouse"],
-    database=st.secrets["snowflake"]["database"],
-    schema=st.secrets["snowflake"]["schema"],
-    role=st.secrets["snowflake"]["role"],
-)
-session = conn.session()
+connection_parameters = {
+    "account": st.secrets["snowflake"]["account"],
+    "user": st.secrets["snowflake"]["user"],
+    "private_key": pkb,
+    "warehouse": st.secrets["snowflake"]["warehouse"],
+    "database": st.secrets["snowflake"]["database"],
+    "schema": st.secrets["snowflake"]["schema"],
+    "role": st.secrets["snowflake"]["role"],
+}
+
+session = Session.builder.configs(connection_parameters).create()
 
 my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
 # st.dataframe(data=my_dataframe, use_container_width=True)
