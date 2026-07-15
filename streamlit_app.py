@@ -4,6 +4,11 @@ from snowflake.snowpark.functions import col
 import snowflake.connector
 from cryptography.hazmat.primitives import serialization
 from snowflake.snowpark import Session
+import requests  
+
+
+smoothiefroot_response = requests.get("[https://my.smoothiefroot.com/api/fruit/watermelon](https://my.smoothiefroot.com/api/fruit/watermelon)")  
+st.text(smoothiefroot_response)
 
 
 # Write directly to the app
