@@ -15,7 +15,7 @@ st.write("The name on your smoothie will be: ", name_on_order)
 
 
 # Get the current credentials
-cnx = st.connection("snowflake")
+# cnx = st.connection("snowflake")
 conn = st.connection(
     "",
     type="snowflake",
