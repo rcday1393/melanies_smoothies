@@ -32,7 +32,7 @@ pkb = private_key.private_bytes(
     encryption_algorithm=serialization.NoEncryption(),
 )
 
-conn = snowflake.connector.connect(
+session = snowflake.connector.connect(
     account=st.secrets["snowflake"]["account"],
     user=st.secrets["snowflake"]["user"],
     private_key=pkb,
