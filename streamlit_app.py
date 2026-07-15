@@ -32,7 +32,7 @@ pkb = private_key.private_bytes(
     encryption_algorithm=serialization.NoEncryption(),
 )
 
-session = snowflake.connector.connect(
+conn = snowflake.connector.connect(
     account=st.secrets["snowflake"]["account"],
     user=st.secrets["snowflake"]["user"],
     private_key=pkb,
@@ -41,6 +41,8 @@ session = snowflake.connector.connect(
     schema=st.secrets["snowflake"]["schema"],
     role=st.secrets["snowflake"]["role"],
 )
+session = conn.session()
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col("FRUIT_NAME"))
 # st.dataframe(data=my_dataframe, use_container_width=True)
 ingredients_list = st.multiselect('Choose up to 5 ingredients:', my_dataframe, max_selections=5)
